@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        (application as MainApplication).githubRepository.getRepository()
+        (application as MainApplication).githubRepository.searchRepositories()
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
