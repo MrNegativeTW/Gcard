@@ -10,6 +10,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/m3_searchbar_height"
         android:paddingHorizontal="16dp"
         android:paddingTop="16dp"
         app:layout_behavior="@string/searchbar_scrolling_view_behavior">
@@ -18,8 +19,8 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lorem"
-            android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
+            android:text="@string/searchScreen_latestSearch"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -36,6 +37,15 @@
     <com.google.android.material.search.SearchView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/searchScreen_searchBarHint"
-        app:layout_anchor="@id/search_bar" />
+        android:hint="@string/searchScreen_searchViewHint"
+        app:layout_anchor="@id/search_bar">
+        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_searchResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </com.google.android.material.search.SearchView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
