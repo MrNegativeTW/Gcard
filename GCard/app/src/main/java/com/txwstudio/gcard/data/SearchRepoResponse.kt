@@ -3,9 +3,9 @@ package com.txwstudio.gcard.data
 import com.google.gson.annotations.SerializedName
 
 data class SearchRepoResponse(
-    @SerializedName("total_count") val totalCount: Long,
-    @SerializedName("incomplete_results")  val incompleteResults: Boolean,
-    @SerializedName("items") val items: List<Item>
+    @SerializedName("total_count") val totalCount: Long = 0,
+    @SerializedName("incomplete_results")  val incompleteResults: Boolean = false,
+    @SerializedName("items") val items: List<Item> = listOf()
 )
 
 data class Item(
