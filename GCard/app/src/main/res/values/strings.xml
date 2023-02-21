@@ -11,5 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <!-- Serach Activity -->
-    <string name="searchScreen_searchBarHint">Search for…</string>
+    <string name="searchScreen_searchBarHint">Search for …</string>
 </resources>
