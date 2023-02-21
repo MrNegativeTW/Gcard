@@ -1,18 +1,17 @@
 package com.txwstudio.gcard.repository
 
+import com.txwstudio.gcard.data.SearchRepoResponse
 import com.txwstudio.gcard.datasource.GitHubRemoteDataSource
 import com.txwstudio.gcard.utils.logI
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 
 class GitHubRepository(private val githubRemoteDataSource: GitHubRemoteDataSource) {
 
-    fun searchRepositories(keyword: String): String {
-        githubRemoteDataSource.searchRepo(keyword)
+    fun searchRepo(keyword: String): Flow<SearchRepoResponse> {
+        val a = githubRemoteDataSource.searchRepo(keyword)
+        logI("${a.totalCount}")
 
-        return ""
+        return SearchRepoResponse()
     }
 
 }

@@ -14,8 +14,7 @@ import com.txwstudio.gcard.data.SearchState
 import com.txwstudio.gcard.repository.GitHubRepository
 import com.txwstudio.gcard.utils.logI
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewModel() {
@@ -28,10 +27,11 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
     }
 
     fun submitSearchKeyword(keyword: String) {
-        logI("Keyword received: \"$keyword\"")
-        if (keyword.trim().isEmpty()) return
+        val trimmedKeyword = keyword.trim()
+        if (trimmedKeyword.isEmpty()) return
+        logI("Searching for: \"$keyword\"")
         viewModelScope.launch(Dispatchers.IO) {
-            gitHubRepository.searchRepositories(keyword)
+            gitHubRepository.searchRepo(keyword).collect()
         }
     }
 

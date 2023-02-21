@@ -10,8 +10,8 @@ import retrofit2.Response
 
 class GitHubRemoteDataSource {
 
-    fun searchRepo(keyword: String): String {
-        logI("Searching for $keyword")
+    fun searchRepo(keyword: String): SearchRepoResponse {
+
         GitHubApi.gitHubApiService.searchRepositories(keyword)
             .enqueue(object : Callback<SearchRepoResponse> {
                 override fun onResponse(
@@ -19,8 +19,11 @@ class GitHubRemoteDataSource {
                     response: Response<SearchRepoResponse>
                 ) {
                     logI("${response.code()}")
-                    response.body()?.let {
-                        logI("totalCount: ${it.totalCount}, $it")
+                    if (response.code() == 200) {
+                        response.body()?.let {
+                            logI("totalCount: ${it.totalCount}, $it")
+                            return@let it
+                        }
                     }
                 }
 
@@ -28,7 +31,7 @@ class GitHubRemoteDataSource {
                     logE("${t.cause}\n${t.message}")
                 }
             })
-        return ""
+        return SearchRepoResponse()
     }
 
 }

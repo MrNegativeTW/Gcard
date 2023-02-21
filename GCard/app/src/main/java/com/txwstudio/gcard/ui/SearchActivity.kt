@@ -45,9 +45,15 @@ class SearchActivity : AppCompatActivity() {
     private fun subscribeViewModel() {
         viewModel.uiState.observe(this) {
             when (it) {
-                is SearchState.Success -> {}
-                is SearchState.Loading -> {}
-                is SearchState.Error -> {}
+                is SearchState.Success -> {
+                    it.searchRepoResponse
+                }
+                is SearchState.Loading -> {
+                    it.isLoading
+                }
+                is SearchState.Error -> {
+                    it.errorMessage
+                }
             }
         }
     }
