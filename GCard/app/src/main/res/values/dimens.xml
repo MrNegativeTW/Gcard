@@ -1,5 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="margin_RepoPreviewItem_spaceHorizon">16dp</dimen>
+    <dimen name="margin_RepoPreviewItem_spaceStart">16dp</dimen>
+    <dimen name="margin_RepoPreviewItem_spaceEnd">24dp</dimen>
+    <dimen name="margin_repoPreviewItem_spaceVertical">12dp</dimen>
 </resources>

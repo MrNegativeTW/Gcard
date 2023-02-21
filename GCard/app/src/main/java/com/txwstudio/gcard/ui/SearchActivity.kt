@@ -7,7 +7,7 @@ import com.txwstudio.gcard.adapter.SearchAdapter
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
 import com.txwstudio.gcard.viewmodel.SearchViewModel
 
-class SearchActivity: AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private val viewModel by viewModels<SearchViewModel>()
@@ -20,6 +20,16 @@ class SearchActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.searchBar)
+
+        subscribeUi()
+    private fun subscribeUi() {
+        val editText = binding.searchView.editText
+        editText.setOnEditorActionListener { v, actionId, event ->
+            binding.searchBar.text = binding.searchView.text
+            binding.searchView.hide()
+            false
+        }
+    }
     }
 
     private fun setupRecyclerView() {

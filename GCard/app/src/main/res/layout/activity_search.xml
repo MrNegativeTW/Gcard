@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/m3_searchbar_height"
-        android:paddingTop="16dp"
+        android:paddingTop="32dp"
         app:layout_behavior="@string/searchbar_scrolling_view_behavior">
         <!-- Screen content goes here. -->
 
@@ -23,6 +23,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="@string/searchScreen_latestSearch"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
@@ -32,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
+                tools:itemCount="2"
                 tools:listitem="@layout/item_repo_preview" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -42,17 +43,18 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
+            android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/searchScreen_searchBarHint" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.search.SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/searchScreen_searchViewHint"
-        app:layout_anchor="@id/search_bar">
+        app:layout_anchor="@id/searchBar">
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
 
         <androidx.recyclerview.widget.RecyclerView
