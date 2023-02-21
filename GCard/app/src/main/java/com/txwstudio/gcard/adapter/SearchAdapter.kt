@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.txwstudio.gcard.data.SearchRepoResponse
-import com.txwstudio.gcard.databinding.ItemRepoCardBinding
+import com.txwstudio.gcard.databinding.ItemRepoPreviewBinding
 
 class SearchAdapter(private val onItemClicked: (String) -> Unit) :
     ListAdapter<SearchRepoResponse, RepoCardViewHolder>(SearchResultDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoCardViewHolder {
         val binding =
-            ItemRepoCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRepoPreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RepoCardViewHolder(binding) { absoluteAdapterPosition ->
             onItemClicked(getItem(absoluteAdapterPosition).totalCount.toString())
         }
@@ -27,7 +27,7 @@ class SearchAdapter(private val onItemClicked: (String) -> Unit) :
 
 
 class RepoCardViewHolder(
-    private val binding: ItemRepoCardBinding,
+    private val binding: ItemRepoPreviewBinding,
     onItemClicked: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
