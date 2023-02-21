@@ -9,11 +9,8 @@ import kotlinx.coroutines.launch
 
 class GitHubRepository(private val githubRemoteDataSource: GitHubRemoteDataSource) {
 
-    fun searchRepositories(): String {
-        logI("Hello World!")
-        CoroutineScope(Dispatchers.IO).launch {
-            githubRemoteDataSource.searchRepo()
-        }
+    fun searchRepositories(keyword: String): String {
+        githubRemoteDataSource.searchRepo(keyword)
 
         return ""
     }

@@ -10,16 +10,17 @@ import retrofit2.Response
 
 class GitHubRemoteDataSource {
 
-    fun searchRepo(): String {
-        logI("Hello World!")
-        GitHubApi.gitHubApiService.searchRepositories("timetable")
+    fun searchRepo(keyword: String): String {
+        logI("Searching for $keyword")
+        GitHubApi.gitHubApiService.searchRepositories(keyword)
             .enqueue(object : Callback<SearchRepoResponse> {
                 override fun onResponse(
                     call: Call<SearchRepoResponse>,
                     response: Response<SearchRepoResponse>
                 ) {
+                    logI("${response.code()}")
                     response.body()?.let {
-                        logI("${it.totalCount}, ${it.items[0].name}")
+                        logI("totalCount: ${it.totalCount}, $it")
                     }
                 }
 

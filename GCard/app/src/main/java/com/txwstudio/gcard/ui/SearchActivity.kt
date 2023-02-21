@@ -3,14 +3,18 @@ package com.txwstudio.gcard.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import com.txwstudio.gcard.adapter.SearchAdapter
+import com.txwstudio.gcard.data.SearchState
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
 import com.txwstudio.gcard.viewmodel.SearchViewModel
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private val viewModel by viewModels<SearchViewModel>()
+    private val viewModel by viewModels<SearchViewModel> {
+        SearchViewModel.Factory
+    }
 
     private lateinit var searchAdapter: SearchAdapter
 
@@ -18,10 +22,13 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.searchBar)
 
         subscribeUi()
+        // setupRecyclerView()
+        subscribeViewModel()
+    }
+
     private fun subscribeUi() {
         val editText = binding.searchView.editText
         editText.setOnEditorActionListener { v, actionId, event ->
@@ -29,11 +36,24 @@ class SearchActivity : AppCompatActivity() {
             binding.searchView.hide()
             false
         }
+        editText.doAfterTextChanged { editable ->
+            viewModel.submitSearchKeyword(editable.toString())
+        }
+
     }
+
+    private fun subscribeViewModel() {
+        viewModel.uiState.observe(this) {
+            when (it) {
+                is SearchState.Success -> {}
+                is SearchState.Loading -> {}
+                is SearchState.Error -> {}
+            }
+        }
     }
 
     private fun setupRecyclerView() {
-        searchAdapter = SearchAdapter { ticketTypeCode ->
+        searchAdapter = SearchAdapter { _ ->
 
         }
         binding.recyclerViewSearchResult.adapter = searchAdapter
