@@ -8,6 +8,13 @@ fun Any.logI(message: String) {
     Log.i(this::class.java.simpleName, message)
 }
 
+/**
+ * If Logcat shows tag as "SafeCollector", use this instead.
+ */
+fun Any.logI(tag: String, message: String) {
+    Log.i(tag, message)
+}
+
 fun Any.logW(message: String) {
     Log.w(this::class.java.simpleName, message)
 }
