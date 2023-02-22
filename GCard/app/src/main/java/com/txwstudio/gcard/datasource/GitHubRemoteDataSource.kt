@@ -15,6 +15,7 @@ import retrofit2.Response
 class GitHubRemoteDataSource {
 
     fun searchRepo(keyword: String): Flow<SearchRepoResponse> = flow {
+        logI("Hello World!")
         val searchRepoResponse = GitHubApi.gitHubApiService.searchRepositories(keyword)
         emit(searchRepoResponse)
 //            .enqueue(object : Callback<SearchRepoResponse> {

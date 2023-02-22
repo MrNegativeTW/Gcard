@@ -44,18 +44,4 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
                 }
         }
     }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                // Get the Application object from extras
-                val application = checkNotNull(this[APPLICATION_KEY])
-
-                // Create a SavedStateHandle for this ViewModel from extras
-                val savedStateHandle = createSavedStateHandle()
-
-                SearchViewModel((application as MainApplication).githubRepository)
-            }
-        }
-    }
 }

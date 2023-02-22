@@ -5,16 +5,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.txwstudio.gcard.adapter.SearchAdapter
-import com.txwstudio.gcard.data.SearchRepoResponse
-import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
 import com.txwstudio.gcard.viewmodel.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.GlobalContext.get
+import org.koin.core.parameter.parametersOf
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private val viewModel by viewModels<SearchViewModel> {
-        SearchViewModel.Factory
+    private val viewModel: SearchViewModel by viewModel {
+        parametersOf(get())
     }
 
     private lateinit var searchAdapter: SearchAdapter
