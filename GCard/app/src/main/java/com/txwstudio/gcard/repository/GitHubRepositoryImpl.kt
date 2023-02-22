@@ -1,6 +1,6 @@
 package com.txwstudio.gcard.repository
 
-import com.txwstudio.gcard.data.SearchRepoResponse
+import com.txwstudio.gcard.data.SearchRepoApiModel
 import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.datasource.GitHubRemoteDataSource
 import com.txwstudio.gcard.utils.logI
@@ -13,12 +13,17 @@ class GitHubRepositoryImpl(
     private val githubRemoteDataSource: GitHubRemoteDataSource
 ) : GitHubRepository {
 
-    override fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoResponse>> = flow {
-        logI("Hello World!")
-        githubRemoteDataSource.searchRepo(keyword).collect {
-            logI("${it.totalCount}")
-        }
+    override suspend fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoApiModel>> =
+        flow {
+            logI(TAG, "Hello World!")
+            githubRemoteDataSource.searchRepo(keyword).collect {
+                logI(TAG, "it.totalCount: ${it.totalCount}")
+            }
 
-        emit(SearchResult.Success(SearchRepoResponse()))
-    }.flowOn(Dispatchers.IO)
+            emit(SearchResult.Success(SearchRepoApiModel()))
+        }.flowOn(Dispatchers.IO)
+
+    companion object {
+        private const val TAG = "GitHubRepositoryImpl"
+    }
 }

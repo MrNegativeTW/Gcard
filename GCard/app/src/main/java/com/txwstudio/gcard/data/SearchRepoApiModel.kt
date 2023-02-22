@@ -2,7 +2,7 @@ package com.txwstudio.gcard.data
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchRepoResponse(
+data class SearchRepoApiModel(
     @SerializedName("total_count") val totalCount: Long = 0,
     @SerializedName("incomplete_results")  val incompleteResults: Boolean = false,
     @SerializedName("items") val items: List<Item> = listOf()

@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.txwstudio.gcard.data.SearchRepoResponse
+import com.txwstudio.gcard.data.SearchRepoApiModel
 import com.txwstudio.gcard.databinding.ItemRepoPreviewBinding
 
 class SearchAdapter(private val onItemClicked: (String) -> Unit) :
-    ListAdapter<SearchRepoResponse, RepoCardViewHolder>(SearchResultDiffCallback()) {
+    ListAdapter<SearchRepoApiModel, RepoCardViewHolder>(SearchResultDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoCardViewHolder {
         val binding =
@@ -38,25 +38,25 @@ class RepoCardViewHolder(
 //        }
     }
 
-    fun bind(ticketType: SearchRepoResponse) {
+    fun bind(ticketType: SearchRepoApiModel) {
         TODO("Type")
 //        binding.textViewTicketItemName.text = ticketType.ticketTypeName
 //        binding.textViewTicketItemQuantity.text = ticketType.orderQuantity.toString()
     }
 }
 
-private class SearchResultDiffCallback : DiffUtil.ItemCallback<SearchRepoResponse>() {
+private class SearchResultDiffCallback : DiffUtil.ItemCallback<SearchRepoApiModel>() {
     override fun areItemsTheSame(
-        oldItem: SearchRepoResponse,
-        newItem: SearchRepoResponse
+        oldItem: SearchRepoApiModel,
+        newItem: SearchRepoApiModel
     ): Boolean {
         TODO("Fix this")
         return oldItem.items[0].id == newItem.items[0].id
     }
 
     override fun areContentsTheSame(
-        oldItem: SearchRepoResponse,
-        newItem: SearchRepoResponse
+        oldItem: SearchRepoApiModel,
+        newItem: SearchRepoApiModel
     ): Boolean {
         return oldItem == newItem
     }
