@@ -9,9 +9,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class GitHubRepository(private val githubRemoteDataSource: GitHubRemoteDataSource) {
+interface GitHubRepository {
+    fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoResponse>>
+}
 
-    fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoResponse>> = flow {
+class GitHubRepositoryImpl(private val githubRemoteDataSource: GitHubRemoteDataSource) :
+    GitHubRepository {
+
+    override fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoResponse>> = flow {
+        logI("Hello World!")
         githubRemoteDataSource.searchRepo(keyword).collect {
             logI("${it.totalCount}")
         }
