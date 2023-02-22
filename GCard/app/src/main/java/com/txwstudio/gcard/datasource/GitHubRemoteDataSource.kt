@@ -1,22 +1,19 @@
 package com.txwstudio.gcard.datasource
 
-import com.txwstudio.gcard.data.SearchRepoResponse
+import com.txwstudio.gcard.data.SearchRepoApiModel
 import com.txwstudio.gcard.network.GitHubApi
-import com.txwstudio.gcard.utils.logE
+import com.txwstudio.gcard.network.GithubApiService
 import com.txwstudio.gcard.utils.logI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class GitHubRemoteDataSource {
+class GitHubRemoteDataSource(private val githubApiService: GithubApiService) {
 
-    fun searchRepo(keyword: String): Flow<SearchRepoResponse> = flow {
-        logI("Hello World!")
-        val searchRepoResponse = GitHubApi.gitHubApiService.searchRepositories(keyword)
+    fun searchRepo(keyword: String): Flow<SearchRepoApiModel> = flow {
+        logI(TAG, "Hello World!")
+        val searchRepoResponse = githubApiService.searchRepositories(keyword)
         emit(searchRepoResponse)
 //            .enqueue(object : Callback<SearchRepoResponse> {
 //                override fun onResponse(
@@ -37,7 +34,9 @@ class GitHubRemoteDataSource {
 //                    logE("${t.cause}\n${t.message}")
 //                }
 //            })
-        emit(SearchRepoResponse())
     }.flowOn(Dispatchers.IO)
 
+    companion object {
+        private const val TAG = "GitHubRemoteDataSource"
+    }
 }

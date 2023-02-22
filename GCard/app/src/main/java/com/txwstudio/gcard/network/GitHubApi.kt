@@ -5,6 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+@Deprecated("Use koin instead")
 object GitHubApi {
 
     private const val BASE_URL_GITHUB_API = "https://api.github.com"
