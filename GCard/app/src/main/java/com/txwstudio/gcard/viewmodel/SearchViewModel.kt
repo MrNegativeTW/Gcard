@@ -3,14 +3,7 @@ package com.txwstudio.gcard.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.txwstudio.gcard.MainApplication
-import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.repository.GitHubRepository
 import com.txwstudio.gcard.utils.logI
 import kotlinx.coroutines.Dispatchers
