@@ -5,7 +5,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.txwstudio.gcard.adapter.SearchAdapter
-import com.txwstudio.gcard.data.SearchState
+import com.txwstudio.gcard.data.SearchRepoResponse
+import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
 import com.txwstudio.gcard.viewmodel.SearchViewModel
 
@@ -43,19 +44,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun subscribeViewModel() {
-        viewModel.uiState.observe(this) {
-            when (it) {
-                is SearchState.Success -> {
-                    it.searchRepoResponse
-                }
-                is SearchState.Loading -> {
-                    it.isLoading
-                }
-                is SearchState.Error -> {
-                    it.errorMessage
-                }
-            }
-        }
+        viewModel.uiState.observe(this) {}
     }
 
     private fun setupRecyclerView() {

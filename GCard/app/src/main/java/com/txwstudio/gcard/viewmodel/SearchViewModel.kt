@@ -10,17 +10,20 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.txwstudio.gcard.MainApplication
-import com.txwstudio.gcard.data.SearchState
+import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.repository.GitHubRepository
 import com.txwstudio.gcard.utils.logI
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewModel() {
 
-    private val _uiState = MutableLiveData<SearchState>()
-    val uiState: LiveData<SearchState> = _uiState
+    // TODO("Placeholder")
+    private val _uiState = MutableLiveData<Boolean>()
+    val uiState: LiveData<Boolean>
+        get() = _uiState
 
     init {
 
@@ -31,7 +34,14 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
         if (trimmedKeyword.isEmpty()) return
         logI("Searching for: \"$keyword\"")
         viewModelScope.launch(Dispatchers.IO) {
-            gitHubRepository.searchRepo(keyword).collect()
+            gitHubRepository.searchRepo(keyword)
+                .flowOn(Dispatchers.IO)
+                .catch {
+
+                }
+                .collect {
+
+                }
         }
     }
 

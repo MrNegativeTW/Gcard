@@ -18,11 +18,11 @@ interface GithubApiService {
      * @param page Page number of the results to fetch. Default: 1
      */
     @GET("/search/repositories")
-    fun searchRepositories(
+    suspend fun searchRepositories(
         @Query("q") q: String,
         @Query("sort") sort: String = "bestmatch",
         @Query("order") order: String = "desc",
         @Query("per_page") perPage: Int = 30,
         @Query("page") page: Int = 1
-    ): Call<SearchRepoResponse>
+    ): SearchRepoResponse
 }
