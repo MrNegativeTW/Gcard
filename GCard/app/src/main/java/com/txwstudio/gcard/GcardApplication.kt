@@ -10,9 +10,7 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import com.txwstudio.gcard.viewmodel.SearchViewModel
 
-class MainApplication : Application() {
-
-    val githubRepository by lazy { GitHubRepositoryImpl(GitHubRemoteDataSource()) }
+class GcardApplication : Application() {
 
     private val myAppModules = module {
         single { GitHubRemoteDataSource() }
