@@ -2,6 +2,11 @@ package com.txwstudio.gcard.data
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * 搜尋 GitHub Repository 的回覆內容。
+ *
+ * SearchActivitiy.searchRepositories
+ */
 data class SearchRepoApiModel(
     @SerializedName("total_count") val totalCount: Long = 0,
     @SerializedName("incomplete_results")  val incompleteResults: Boolean = false,

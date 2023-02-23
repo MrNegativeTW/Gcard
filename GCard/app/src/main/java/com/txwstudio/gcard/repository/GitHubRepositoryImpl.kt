@@ -15,17 +15,16 @@ class GitHubRepositoryImpl(
 
     override suspend fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoApiModel>> =
         flow {
-            logI(TAG, "Hello World!")
+            emit(SearchResult.Loading)
             githubRemoteDataSource.searchRepo(keyword).collect {
                 when (it) {
                     is SearchResult.Success -> {
-                        logI(TAG, "it.data.totalCount: ${it.data.totalCount}")
-                        // TODO
+                        // TODO("Save result to local database")
                         emit(it)
                     }
 
                     is SearchResult.Error -> {
-                        logI(TAG, "it.exception: ${it.exception}")
+                        // TODO("Search in LocalDataSource")
                         emit(it)
                     }
 

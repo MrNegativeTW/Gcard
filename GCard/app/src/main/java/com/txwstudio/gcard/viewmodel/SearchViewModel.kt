@@ -27,7 +27,7 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
             gitHubRepository.searchRepo(keyword)
                 .flowOn(Dispatchers.IO)
                 .catch {
-
+                    // TODO("Maybe throw something from repository?")
                 }
                 .collect {
                     when (it) {
@@ -36,7 +36,7 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
                         }
 
                         is SearchResult.Error -> {
-                            logI("SearchResult.Error: ${it.exception.message}")
+                            logI("SearchResult.Error: ${it.messages}")
                         }
 
                         is SearchResult.Loading -> {

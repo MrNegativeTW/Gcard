@@ -15,16 +15,20 @@ import java.lang.Exception
 class GitHubRemoteDataSource(private val githubApiService: GithubApiService) {
 
     fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoApiModel>> = flow {
-        logI(TAG, "Hello World!")
-        emit(SearchResult.Loading)
+        logI(TAG, "Searching \"$keyword\" from remote data source")
         val response = githubApiService.searchRepositories(keyword)
+        val responseCode = response.code()
         if (response.isSuccessful) {
+            // Status code between 200..299
             response.body()?.let {
                 emit(SearchResult.Success(it))
             }
+        } else if (responseCode == 403) {
+            // Rate limit exceeded
+            emit(SearchResult.Error("[403] Rate limit exceeded"))
         } else {
             logI(TAG, response.errorBody().toString())
-            emit(SearchResult.Error(Exception()))
+            emit(SearchResult.Error("Unknown Error"))
         }
     }.flowOn(Dispatchers.IO)
 
