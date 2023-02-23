@@ -38,9 +38,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_RepoPreviewItem_spaceStart"
-        android:layout_marginTop="2dp"
         android:layout_marginEnd="@dimen/margin_RepoPreviewItem_spaceEnd"
         android:maxLines="1"
+        android:paddingTop="2dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,16 +53,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_RepoPreviewItem_spaceStart"
-        android:layout_marginTop="2dp"
         android:layout_marginEnd="@dimen/margin_RepoPreviewItem_spaceEnd"
         android:maxLines="2"
+        android:paddingTop="2dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_itemRepoPreview_repoName"
         tools:text="Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator." />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/imageView_itemRepoPreview_starIcon"
         android:layout_width="16dp"
         android:layout_height="16dp"
@@ -84,12 +84,25 @@
         app:layout_constraintTop_toTopOf="@id/imageView_itemRepoPreview_starIcon"
         tools:text="21.5k" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView_itemRepoPreview_languageColor"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="@dimen/margin_RepoPreviewItem_spaceStart"
+        android:layout_marginTop="8dp"
+        android:background="#122222"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView_itemRepoPreview_starCount"
+        app:layout_constraintTop_toBottomOf="@id/textView_itemRepoPreview_repoDescription"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView_itemRepoPreview_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        app:layout_constraintStart_toEndOf="@id/textView_itemRepoPreview_starCount"
+        app:layout_constraintStart_toEndOf="@id/imageView_itemRepoPreview_languageColor"
         app:layout_constraintTop_toTopOf="@id/textView_itemRepoPreview_starCount"
         tools:text="PHP" />
 
