@@ -17,10 +17,23 @@ class GitHubRepositoryImpl(
         flow {
             logI(TAG, "Hello World!")
             githubRemoteDataSource.searchRepo(keyword).collect {
-                logI(TAG, "it.totalCount: ${it.totalCount}")
-            }
+                when (it) {
+                    is SearchResult.Success -> {
+                        logI(TAG, "it.data.totalCount: ${it.data.totalCount}")
+                        // TODO
+                        emit(it)
+                    }
 
-            emit(SearchResult.Success(SearchRepoApiModel()))
+                    is SearchResult.Error -> {
+                        logI(TAG, "it.exception: ${it.exception}")
+                        emit(it)
+                    }
+
+                    is SearchResult.Loading -> {
+                        emit(it)
+                    }
+                }
+            }
         }.flowOn(Dispatchers.IO)
 
     companion object {

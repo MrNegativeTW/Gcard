@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.repository.GitHubRepository
 import com.txwstudio.gcard.utils.logI
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +19,6 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
     val uiState: LiveData<Boolean>
         get() = _uiState
 
-    init {
-
-    }
-
     fun submitSearchKeyword(keyword: String) {
         val trimmedKeyword = keyword.trim()
         if (trimmedKeyword.isEmpty()) return
@@ -33,7 +30,19 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
 
                 }
                 .collect {
+                    when (it) {
+                        is SearchResult.Success -> {
+                            logI("SearchResult.Success: ${it.data.totalCount}")
+                        }
 
+                        is SearchResult.Error -> {
+                            logI("SearchResult.Error: ${it.exception.message}")
+                        }
+
+                        is SearchResult.Loading -> {
+                            logI("SearchResult.Loading")
+                        }
+                    }
                 }
         }
     }

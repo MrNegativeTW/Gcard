@@ -1,39 +1,31 @@
 package com.txwstudio.gcard.datasource
 
 import com.txwstudio.gcard.data.SearchRepoApiModel
-import com.txwstudio.gcard.network.GitHubApi
+import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.network.GithubApiService
 import com.txwstudio.gcard.utils.logI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
+import java.lang.Exception
 
 class GitHubRemoteDataSource(private val githubApiService: GithubApiService) {
 
-    fun searchRepo(keyword: String): Flow<SearchRepoApiModel> = flow {
+    fun searchRepo(keyword: String): Flow<SearchResult<SearchRepoApiModel>> = flow {
         logI(TAG, "Hello World!")
-        val searchRepoResponse = githubApiService.searchRepositories(keyword)
-        emit(searchRepoResponse)
-//            .enqueue(object : Callback<SearchRepoResponse> {
-//                override fun onResponse(
-//                    call: Call<SearchRepoResponse>,
-//                    response: Response<SearchRepoResponse>
-//                ) {
-//                    logI("${response.code()}")
-//                    if (response.code() == 200) {
-//                        response.body()?.let {
-//                            logI("totalCount: ${it.totalCount}, $it")
-//                            emit(it)
-//                            return@let it
-//                        }
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<SearchRepoResponse>, t: Throwable) {
-//                    logE("${t.cause}\n${t.message}")
-//                }
-//            })
+        emit(SearchResult.Loading)
+        val response = githubApiService.searchRepositories(keyword)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                emit(SearchResult.Success(it))
+            }
+        } else {
+            logI(TAG, response.errorBody().toString())
+            emit(SearchResult.Error(Exception()))
+        }
     }.flowOn(Dispatchers.IO)
 
     companion object {
