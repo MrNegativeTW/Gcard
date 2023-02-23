@@ -1,8 +1,10 @@
 package com.txwstudio.gcard.ui
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.widget.doAfterTextChanged
 import com.txwstudio.gcard.adapter.SearchAdapter
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
@@ -49,6 +51,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
+        CustomTabsIntent.Builder().build().apply {
+            launchUrl(this@SearchActivity, Uri.parse("https://google.com"))
+        }
         searchAdapter = SearchAdapter { _ ->
 
         }
