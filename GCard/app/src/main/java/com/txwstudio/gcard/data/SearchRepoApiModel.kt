@@ -10,15 +10,15 @@ import com.google.gson.annotations.SerializedName
 data class SearchRepoApiModel(
     @SerializedName("total_count") val totalCount: Long = 0,
     @SerializedName("incomplete_results")  val incompleteResults: Boolean = false,
-    @SerializedName("items") val items: List<Item> = listOf()
+    @SerializedName("items") val items: List<RepoDetails> = listOf()
 )
 
-data class Item(
+data class RepoDetails(
     @SerializedName("id") val id: Long,
     @SerializedName("node_id") val nodeId: String,
     @SerializedName("full_name") val fullName: String,
     @SerializedName("name") val name: String,
-    @SerializedName("owner") val owner: Owner,
+    @SerializedName("owner") val repoOwner: RepoOwner,
     @SerializedName("private") val isPrivate: Boolean,
     @SerializedName("html_url") val htmlUrl: String,
     @SerializedName("description") val description: String,
@@ -92,11 +92,11 @@ data class Item(
     @SerializedName("archived") val isArchived: Boolean,
     @SerializedName("disabled") val isDisabled: Boolean,
     @SerializedName("visibility") val visibility: String,
-    @SerializedName("license") val license: License,
+    @SerializedName("license") val repoLicense: RepoLicense,
 
-)
+    )
 
-data class Owner(
+data class RepoOwner(
     @SerializedName("avatar_url") val avatar_url: String,
     @SerializedName("events_url") val events_url: String,
     @SerializedName("followers_url") val followers_url: String,
@@ -117,7 +117,7 @@ data class Owner(
     @SerializedName("url") val url: String
 )
 
-data class License(
+data class RepoLicense(
     @SerializedName("key") val key: String,
     @SerializedName("name") val name: String,
     @SerializedName("url") val url: String,

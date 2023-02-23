@@ -21,6 +21,7 @@ class GitHubRemoteDataSource(private val githubApiService: GithubApiService) {
         if (response.isSuccessful) {
             // Status code between 200..299
             response.body()?.let {
+                logI(TAG, "現在發射 $keyword, totalCount: ${it.totalCount}")
                 emit(SearchResult.Success(it))
             }
         } else if (responseCode == 403) {

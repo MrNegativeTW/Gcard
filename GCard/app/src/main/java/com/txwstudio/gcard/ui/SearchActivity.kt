@@ -2,12 +2,13 @@ package com.txwstudio.gcard.ui
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.widget.doAfterTextChanged
 import com.txwstudio.gcard.adapter.SearchAdapter
+import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
+import com.txwstudio.gcard.utils.logI
 import com.txwstudio.gcard.viewmodel.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.GlobalContext.get
@@ -24,13 +25,26 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Setup ui stuff
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.searchBar)
+        setupRecyclerView()
 
         subscribeUi()
-        // setupRecyclerView()
         subscribeViewModel()
+    }
+
+    private fun setupRecyclerView() {
+//        CustomTabsIntent.Builder().build().apply {
+//            launchUrl(this@SearchActivity, Uri.parse("https://google.com"))
+//        }
+        searchAdapter = SearchAdapter { position ->
+            logI("recycler view item clicked, $position")
+        }
+        binding.recyclerViewSearchResult.adapter = searchAdapter
+        // searchAdapter.submitList()
+        // searchAdapter.notifyDataSetChanged()
     }
 
     private fun subscribeUi() {
@@ -47,18 +61,23 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun subscribeViewModel() {
-        viewModel.uiState.observe(this) {}
-    }
-
-    private fun setupRecyclerView() {
-        CustomTabsIntent.Builder().build().apply {
-            launchUrl(this@SearchActivity, Uri.parse("https://google.com"))
+        viewModel.uiState.observe(this) {
+            when (it) {
+                is SearchResult.Success -> {
+                    logI("回應成功，總數量 ${it.data.totalCount}")
+                    // TODO("SearchView 顯示 顯示n筆結果")
+                    // TODO("Set data to adapter") volvo
+                    searchAdapter.submitList(it.data.items)
+                    searchAdapter.notifyDataSetChanged()
+                }
+                is SearchResult.Error -> {
+                    logI("發生錯誤 ${it.messages}")
+                }
+                is SearchResult.Loading -> {
+                    logI("載入中")
+                    // TODO("SearchView 顯示載入中")
+                }
+            }
         }
-        searchAdapter = SearchAdapter { _ ->
-
-        }
-        binding.recyclerViewSearchResult.adapter = searchAdapter
-        // searchAdapter.submitList()
-        // searchAdapter.notifyDataSetChanged()
     }
 }

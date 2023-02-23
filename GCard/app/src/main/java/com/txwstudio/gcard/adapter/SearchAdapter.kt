@@ -5,17 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.txwstudio.gcard.data.RepoDetails
 import com.txwstudio.gcard.data.SearchRepoApiModel
 import com.txwstudio.gcard.databinding.ItemRepoPreviewBinding
 
 class SearchAdapter(private val onItemClicked: (String) -> Unit) :
-    ListAdapter<SearchRepoApiModel, RepoCardViewHolder>(SearchResultDiffCallback()) {
+    ListAdapter<RepoDetails, RepoCardViewHolder>(SearchResultDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoCardViewHolder {
         val binding =
             ItemRepoPreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RepoCardViewHolder(binding) { absoluteAdapterPosition ->
-            onItemClicked(getItem(absoluteAdapterPosition).totalCount.toString())
+            onItemClicked(getItem(absoluteAdapterPosition).htmlUrl)
         }
     }
 
@@ -33,30 +35,34 @@ class RepoCardViewHolder(
     RecyclerView.ViewHolder(binding.root) {
 
     init {
-//        binding.buttonTicketItemPlus.setOnClickListener {
-//            onItemClicked(absoluteAdapterPosition)
-//        }
+        binding.root.setOnClickListener {
+            onItemClicked(absoluteAdapterPosition)
+        }
     }
 
-    fun bind(ticketType: SearchRepoApiModel) {
-        TODO("Type")
-//        binding.textViewTicketItemName.text = ticketType.ticketTypeName
-//        binding.textViewTicketItemQuantity.text = ticketType.orderQuantity.toString()
+    fun bind(repoDetails: RepoDetails) {
+        Glide.with(binding.root)
+            .load(repoDetails.repoOwner.avatar_url)
+            .into(binding.imageViewItemRepoPreviewOwnerAvatar)
+        binding.textViewItemRepoPreviewOwnerName.text = repoDetails.repoOwner.login
+        binding.textViewItemRepoPreviewRepoName.text = repoDetails.name
+        binding.textViewItemRepoPreviewRepoDescription.text = repoDetails.description
+        binding.textViewItemRepoPreviewStarCount.text = repoDetails.stargazers_count.toString()
+        binding.textViewItemRepoPreviewLanguage.text = repoDetails.language
     }
 }
 
-private class SearchResultDiffCallback : DiffUtil.ItemCallback<SearchRepoApiModel>() {
+private class SearchResultDiffCallback : DiffUtil.ItemCallback<RepoDetails>() {
     override fun areItemsTheSame(
-        oldItem: SearchRepoApiModel,
-        newItem: SearchRepoApiModel
+        oldItem: RepoDetails,
+        newItem: RepoDetails
     ): Boolean {
-        TODO("Fix this")
-        return oldItem.items[0].id == newItem.items[0].id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: SearchRepoApiModel,
-        newItem: SearchRepoApiModel
+        oldItem: RepoDetails,
+        newItem: RepoDetails
     ): Boolean {
         return oldItem == newItem
     }
