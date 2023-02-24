@@ -31,6 +31,8 @@ class GitHubRepositoryImpl(
                     is SearchResult.Loading -> {
                         emit(it)
                     }
+
+                    is SearchResult.Clear -> {}
                 }
             }
         }.flowOn(Dispatchers.IO)

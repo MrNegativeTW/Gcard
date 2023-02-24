@@ -49,4 +49,8 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
     fun saveSearchKeyword(keyword: String) {
         logI("saveSearchKeyword()")
     }
+
+    fun clearSearchState() {
+        _searchState.value = SearchResult.Clear
+    }
 }

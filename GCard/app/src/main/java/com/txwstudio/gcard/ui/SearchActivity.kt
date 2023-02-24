@@ -78,8 +78,9 @@ class SearchActivity : AppCompatActivity() {
             binding.searchView.hide()
         }
 
+        // 按下 Leading icon 的動作
         binding.searchBar.setNavigationOnClickListener {
-            // TODO("Clear everything, back to init state")
+            viewModel.clearSearchState()
         }
     }
 
@@ -108,6 +109,13 @@ class SearchActivity : AppCompatActivity() {
                 is SearchResult.Loading -> {
                     logI("載入中")
                     // TODO("SearchView 顯示載入中")
+                }
+
+                is SearchResult.Clear -> {
+                    logI("清空畫面")
+                    // TODO("重設 SearchBar 的 Leading icon")
+                    searchAdapter.submitList(listOf())
+                    searchAdapter.notifyDataSetChanged()
                 }
             }
         }
