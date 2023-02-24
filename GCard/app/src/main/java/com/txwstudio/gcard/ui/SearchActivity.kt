@@ -2,8 +2,12 @@ package com.txwstudio.gcard.ui
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.inputmethod.EditorInfoCompat
 import androidx.core.widget.doAfterTextChanged
 import com.txwstudio.gcard.R
 import com.txwstudio.gcard.adapter.SearchAdapter
@@ -48,8 +52,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun subscribeUi() {
         val editText = binding.searchView.editText
-        editText.setOnEditorActionListener { v, actionId, event ->
-            // TODO("Save keyword to Room t")
+        editText.setOnEditorActionListener { view, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                // TODO("Save keyword to Room t")
+                viewModel.saveSearchKeyword(binding.searchView.text.toString())
+            }
             binding.searchBar.text = binding.searchView.text
             binding.searchView.hide()
             false
@@ -58,6 +65,22 @@ class SearchActivity : AppCompatActivity() {
             viewModel.submitSearchKeyword(editable.toString())
         }
 
+        // 按下 "顯示 n 筆結果" 後收起 searchView 並設定箭頭 Icon
+        binding.layoutShowCount.layoutItemKeywordHistory.setOnClickListener {
+            binding.searchBar.apply {
+                text = binding.searchView.text
+                navigationIcon =
+                    AppCompatResources.getDrawable(
+                        this@SearchActivity,
+                        R.drawable.baseline_arrow_back_24
+                    )
+            }
+            binding.searchView.hide()
+        }
+
+        binding.searchBar.setNavigationOnClickListener {
+            // TODO("Clear everything, back to init state")
+        }
     }
 
     private fun subscribeViewModel() {
@@ -66,11 +89,16 @@ class SearchActivity : AppCompatActivity() {
                 is SearchResult.Success -> {
                     logI("回應成功，總數量 ${it.data.totalCount}")
                     // TODO("SearchView 顯示 顯示n筆結果")
-                    binding.textViewSearchSummary.text = "顯示 ${it.data.totalCount} 筆結果"
+                    binding.layoutShowCount.apply {
+                        textViewKeyword.text = "顯示 ${it.data.totalCount} 筆結果"
+                        layoutItemKeywordHistory.visibility = View.VISIBLE
+                    }
                     binding.textViewContentTitle.text =
                         resources.getString(R.string.searchScreen_resultFor)
-                    searchAdapter.submitList(it.data.items)
-                    searchAdapter.notifyDataSetChanged()
+                    searchAdapter.apply {
+                        submitList(it.data.items)
+                        notifyDataSetChanged()
+                    }
                 }
 
                 is SearchResult.Error -> {

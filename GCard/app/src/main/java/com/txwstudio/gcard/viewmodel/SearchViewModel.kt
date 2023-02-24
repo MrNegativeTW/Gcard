@@ -42,4 +42,11 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
                 }
         }
     }
+
+    /**
+     * 儲存上次按下搜尋時的字詞到 Room
+     */
+    fun saveSearchKeyword(keyword: String) {
+        logI("saveSearchKeyword()")
+    }
 }
