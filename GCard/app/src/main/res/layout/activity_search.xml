@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_contentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -28,7 +29,7 @@
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_searchHistory"
+                android:id="@+id/recyclerView_searchResults"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -57,13 +58,27 @@
         app:layout_anchor="@id/searchBar">
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_searchSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_RepoPreviewItem_spaceStart"
+            android:layout_marginEnd="@dimen/margin_RepoPreviewItem_spaceEnd"
+            android:maxLines="1"
+            android:paddingTop="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_itemRepoPreview_repoName"
+            tools:text="顯示 87 個結果" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_searchResult"
+            android:id="@+id/recyclerView_searchSuggestions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="5"
-            tools:listitem="@layout/item_repo_preview" />
+            tools:listitem="@layout/item_keywork_history" />
     </com.google.android.material.search.SearchView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

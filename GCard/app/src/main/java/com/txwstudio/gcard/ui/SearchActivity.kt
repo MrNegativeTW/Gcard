@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.widget.doAfterTextChanged
+import com.txwstudio.gcard.R
 import com.txwstudio.gcard.adapter.SearchAdapter
 import com.txwstudio.gcard.data.SearchResult
 import com.txwstudio.gcard.databinding.ActivitySearchBinding
@@ -42,12 +43,13 @@ class SearchActivity : AppCompatActivity() {
                 launchUrl(this@SearchActivity, Uri.parse(position))
             }
         }
-        binding.recyclerViewSearchResult.adapter = searchAdapter
+        binding.recyclerViewSearchResults.adapter = searchAdapter
     }
 
     private fun subscribeUi() {
         val editText = binding.searchView.editText
         editText.setOnEditorActionListener { v, actionId, event ->
+            // TODO("Save keyword to Room t")
             binding.searchBar.text = binding.searchView.text
             binding.searchView.hide()
             false
@@ -59,18 +61,22 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun subscribeViewModel() {
-        viewModel.uiState.observe(this) {
+        viewModel.searchState.observe(this) {
             when (it) {
                 is SearchResult.Success -> {
                     logI("回應成功，總數量 ${it.data.totalCount}")
                     // TODO("SearchView 顯示 顯示n筆結果")
-                    // TODO("Set data to adapter") volvo
+                    binding.textViewSearchSummary.text = "顯示 ${it.data.totalCount} 筆結果"
+                    binding.textViewContentTitle.text =
+                        resources.getString(R.string.searchScreen_resultFor)
                     searchAdapter.submitList(it.data.items)
                     searchAdapter.notifyDataSetChanged()
                 }
+
                 is SearchResult.Error -> {
                     logI("發生錯誤 ${it.messages}")
                 }
+
                 is SearchResult.Loading -> {
                     logI("載入中")
                     // TODO("SearchView 顯示載入中")

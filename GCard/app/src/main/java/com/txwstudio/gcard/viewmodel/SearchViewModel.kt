@@ -19,9 +19,9 @@ import kotlinx.coroutines.withContext
 class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewModel() {
 
     // TODO("Placeholder")
-    private val _uiState = MutableLiveData<SearchResult<SearchRepoApiModel>>()
-    val uiState: LiveData<SearchResult<SearchRepoApiModel>>
-        get() = _uiState
+    private val _searchState = MutableLiveData<SearchResult<SearchRepoApiModel>>()
+    val searchState: LiveData<SearchResult<SearchRepoApiModel>>
+        get() = _searchState
 
     private lateinit var searchJob: Job
 
@@ -38,7 +38,7 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
                     // TODO("Maybe throw something from repository?")
                 }
                 .collect {
-                    withContext(Dispatchers.Main) { _uiState.value = it }
+                    withContext(Dispatchers.Main) { _searchState.value = it }
                 }
         }
     }
