@@ -36,15 +36,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-//        CustomTabsIntent.Builder().build().apply {
-//            launchUrl(this@SearchActivity, Uri.parse("https://google.com"))
-//        }
         searchAdapter = SearchAdapter { position ->
             logI("recycler view item clicked, $position")
+            CustomTabsIntent.Builder().build().apply {
+                launchUrl(this@SearchActivity, Uri.parse(position))
+            }
         }
         binding.recyclerViewSearchResult.adapter = searchAdapter
-        // searchAdapter.submitList()
-        // searchAdapter.notifyDataSetChanged()
     }
 
     private fun subscribeUi() {
