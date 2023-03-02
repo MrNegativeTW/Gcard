@@ -114,6 +114,7 @@ class SearchActivity : AppCompatActivity() {
                 is SearchResult.Clear -> {
                     logI("清空畫面")
                     // TODO("重設 SearchBar 的 Leading icon")
+                    binding.layoutShowCount.layoutItemKeywordHistory.visibility = View.GONE
                     searchAdapter.submitList(listOf())
                     searchAdapter.notifyDataSetChanged()
                 }
