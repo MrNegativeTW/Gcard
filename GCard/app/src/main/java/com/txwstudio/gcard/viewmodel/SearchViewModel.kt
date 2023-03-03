@@ -27,7 +27,10 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
 
     fun submitSearchKeyword(keyword: String) {
         val trimmedKeyword = keyword.trim()
-        if (trimmedKeyword.isEmpty()) return
+        if (trimmedKeyword.isEmpty()) {
+            _searchState.value = SearchResult.Clear
+            return
+        }
         logI("Searching for: \"$keyword\"")
         if (this::searchJob.isInitialized && searchJob.isActive) searchJob.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
@@ -48,9 +51,5 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
      */
     fun saveSearchKeyword(keyword: String) {
         logI("saveSearchKeyword()")
-    }
-
-    fun clearSearchState() {
-        _searchState.value = SearchResult.Clear
     }
 }

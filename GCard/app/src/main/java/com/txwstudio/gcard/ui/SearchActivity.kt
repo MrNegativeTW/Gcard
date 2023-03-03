@@ -67,20 +67,13 @@ class SearchActivity : AppCompatActivity() {
 
         // 按下 "顯示 n 筆結果" 後收起 searchView 並設定箭頭 Icon
         binding.layoutShowCount.layoutItemKeywordHistory.setOnClickListener {
-            binding.searchBar.apply {
-                text = binding.searchView.text
-                navigationIcon =
-                    AppCompatResources.getDrawable(
-                        this@SearchActivity,
-                        R.drawable.baseline_arrow_back_24
-                    )
-            }
+            binding.searchBar.text = binding.searchView.text
             binding.searchView.hide()
         }
 
-        // 按下 Leading icon 的動作
+        // 按下 SearchBar 中 Leading icon 的動作
         binding.searchBar.setNavigationOnClickListener {
-            viewModel.clearSearchState()
+            if (binding.searchView.text!!.isEmpty()) binding.searchBar.text = ""
         }
     }
 
@@ -89,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
             when (it) {
                 is SearchResult.Success -> {
                     logI("回應成功，總數量 ${it.data.totalCount}")
-                    // TODO("SearchView 顯示 顯示n筆結果")
+                    binding.progressCircular.visibility = View.GONE
                     binding.layoutShowCount.apply {
                         textViewKeyword.text = "顯示 ${it.data.totalCount} 筆結果"
                         layoutItemKeywordHistory.visibility = View.VISIBLE
@@ -104,11 +97,13 @@ class SearchActivity : AppCompatActivity() {
 
                 is SearchResult.Error -> {
                     logI("發生錯誤 ${it.messages}")
+                    binding.progressCircular.visibility = View.GONE
                 }
 
                 is SearchResult.Loading -> {
                     logI("載入中")
                     // TODO("SearchView 顯示載入中")
+                    binding.progressCircular.visibility = View.VISIBLE
                 }
 
                 is SearchResult.Clear -> {
