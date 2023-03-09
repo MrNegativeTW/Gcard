@@ -83,6 +83,7 @@ class SearchActivity : AppCompatActivity() {
                 is SearchResult.Success -> {
                     logI("回應成功，總數量 ${it.data.totalCount}")
                     binding.progressCircular.visibility = View.GONE
+                    binding.layoutErrorMessage.root.visibility = View.GONE
                     binding.layoutShowCount.apply {
                         textViewKeyword.text = "顯示 ${it.data.totalCount} 筆結果"
                         layoutItemKeywordHistory.visibility = View.VISIBLE
@@ -98,12 +99,18 @@ class SearchActivity : AppCompatActivity() {
                 is SearchResult.Error -> {
                     logI("發生錯誤 ${it.messages}")
                     binding.progressCircular.visibility = View.GONE
+                    binding.layoutErrorMessage.apply {
+                        root.visibility = View.VISIBLE
+                        textViewErrorMessage.text = "發生錯誤 ${it.messages}"
+                    }
                 }
 
                 is SearchResult.Loading -> {
                     logI("載入中")
                     // TODO("SearchView 顯示載入中")
                     binding.progressCircular.visibility = View.VISIBLE
+                    binding.layoutErrorMessage.root.visibility = View.GONE
+                    binding.layoutShowCount.layoutItemKeywordHistory.visibility = View.GONE
                 }
 
                 is SearchResult.Clear -> {

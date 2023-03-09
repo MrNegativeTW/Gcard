@@ -26,13 +26,16 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
     private lateinit var searchJob: Job
 
     fun submitSearchKeyword(keyword: String) {
+        if (this::searchJob.isInitialized && searchJob.isActive) searchJob.cancel()
+
+        // Sterilize keyword
         val trimmedKeyword = keyword.trim()
         if (trimmedKeyword.isEmpty()) {
             _searchState.value = SearchResult.Clear
             return
         }
+
         logI("Searching for: \"$keyword\"")
-        if (this::searchJob.isInitialized && searchJob.isActive) searchJob.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             gitHubRepository.searchRepo(keyword)
                 .cancellable()
