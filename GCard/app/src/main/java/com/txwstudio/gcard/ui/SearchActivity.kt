@@ -103,6 +103,7 @@ class SearchActivity : AppCompatActivity() {
                         root.visibility = View.VISIBLE
                         textViewErrorMessage.text = "發生錯誤 ${it.messages}"
                     }
+                    binding.layoutShowCount.root.visibility = View.GONE
                 }
 
                 is SearchResult.Loading -> {
