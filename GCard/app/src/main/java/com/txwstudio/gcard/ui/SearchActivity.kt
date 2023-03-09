@@ -66,7 +66,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // 按下 "顯示 n 筆結果" 後收起 searchView 並設定箭頭 Icon
-        binding.layoutShowCount.layoutItemKeywordHistory.setOnClickListener {
+        binding.layoutShowCount.root.setOnClickListener {
             binding.searchBar.text = binding.searchView.text
             binding.searchView.hide()
         }
@@ -86,7 +86,7 @@ class SearchActivity : AppCompatActivity() {
                     binding.layoutErrorMessage.root.visibility = View.GONE
                     binding.layoutShowCount.apply {
                         textViewKeyword.text = "顯示 ${it.data.totalCount} 筆結果"
-                        layoutItemKeywordHistory.visibility = View.VISIBLE
+                        root.visibility = View.VISIBLE
                     }
                     binding.textViewContentTitle.text =
                         resources.getString(R.string.searchScreen_resultFor)
@@ -110,13 +110,15 @@ class SearchActivity : AppCompatActivity() {
                     // TODO("SearchView 顯示載入中")
                     binding.progressCircular.visibility = View.VISIBLE
                     binding.layoutErrorMessage.root.visibility = View.GONE
-                    binding.layoutShowCount.layoutItemKeywordHistory.visibility = View.GONE
+                    binding.layoutShowCount.root.visibility = View.GONE
                 }
 
                 is SearchResult.Clear -> {
                     logI("清空畫面")
                     // TODO("重設 SearchBar 的 Leading icon")
-                    binding.layoutShowCount.layoutItemKeywordHistory.visibility = View.GONE
+                    binding.progressCircular.visibility = View.GONE
+                    binding.layoutErrorMessage.root.visibility = View.GONE
+                    binding.layoutShowCount.root.visibility = View.GONE
                     searchAdapter.submitList(listOf())
                     searchAdapter.notifyDataSetChanged()
                 }
