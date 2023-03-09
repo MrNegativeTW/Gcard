@@ -15,7 +15,9 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <include layout="@layout/component_error_message" />
+    <include
+        android:id="@+id/layout_errorMessage"
+        layout="@layout/component_error_message" />
 
     <!-- NestedScrollingChild goes here (NestedScrollView, RecyclerView, etc.). -->
     <androidx.core.widget.NestedScrollView
