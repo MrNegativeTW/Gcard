@@ -75,10 +75,16 @@ class SearchActivity : AppCompatActivity() {
         binding.searchBar.setNavigationOnClickListener {
             if (binding.searchView.text!!.isEmpty()) binding.searchBar.text = ""
         }
+
+        // 發生錯誤的重試按鈕
+        binding.layoutErrorMessage.buttonRetrySearch.setOnClickListener {
+            viewModel.submitSearchKeyword(binding.searchView.text.toString())
+        }
     }
 
     private fun subscribeViewModel() {
         viewModel.searchState.observe(this) {
+            // TODO("Set all components to default state")
             when (it) {
                 is SearchResult.Success -> {
                     logI("回應成功，總數量 ${it.data.totalCount}")
@@ -90,6 +96,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                     binding.textViewContentTitle.text =
                         resources.getString(R.string.searchScreen_resultFor)
+                    binding.nestedScrollViewSearchResultArea.visibility = View.VISIBLE
                     searchAdapter.apply {
                         submitList(it.data.items)
                         notifyDataSetChanged()
@@ -104,6 +111,11 @@ class SearchActivity : AppCompatActivity() {
                         textViewErrorMessage.text = "發生錯誤 ${it.messages}"
                     }
                     binding.layoutShowCount.root.visibility = View.GONE
+                    binding.nestedScrollViewSearchResultArea.visibility = View.GONE
+                    searchAdapter.apply {
+                        submitList(listOf())
+                        notifyDataSetChanged()
+                    }
                 }
 
                 is SearchResult.Loading -> {
@@ -112,6 +124,11 @@ class SearchActivity : AppCompatActivity() {
                     binding.progressCircular.visibility = View.VISIBLE
                     binding.layoutErrorMessage.root.visibility = View.GONE
                     binding.layoutShowCount.root.visibility = View.GONE
+                    binding.nestedScrollViewSearchResultArea.visibility = View.GONE
+                    searchAdapter.apply {
+                        submitList(listOf())
+                        notifyDataSetChanged()
+                    }
                 }
 
                 is SearchResult.Clear -> {
@@ -120,8 +137,11 @@ class SearchActivity : AppCompatActivity() {
                     binding.progressCircular.visibility = View.GONE
                     binding.layoutErrorMessage.root.visibility = View.GONE
                     binding.layoutShowCount.root.visibility = View.GONE
-                    searchAdapter.submitList(listOf())
-                    searchAdapter.notifyDataSetChanged()
+                    binding.nestedScrollViewSearchResultArea.visibility = View.GONE
+                    searchAdapter.apply {
+                        submitList(listOf())
+                        notifyDataSetChanged()
+                    }
                 }
             }
         }

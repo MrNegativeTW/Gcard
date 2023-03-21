@@ -35,8 +35,8 @@ class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewMode
             return
         }
 
-        logI("Searching for: \"$keyword\"")
         searchJob = viewModelScope.launch(Dispatchers.IO) {
+            logI("Searching for: \"$keyword\"")
             gitHubRepository.searchRepo(keyword)
                 .cancellable()
                 .flowOn(Dispatchers.IO)

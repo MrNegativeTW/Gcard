@@ -12,6 +12,7 @@
 
     <!-- NestedScrollingChild goes here (NestedScrollView, RecyclerView, etc.). -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView_searchResultArea"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/m3_searchbar_height"
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/searchScreen_latestSearch"
+                android:text="@string/searchScreen_resultFor"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
             <androidx.recyclerview.widget.RecyclerView

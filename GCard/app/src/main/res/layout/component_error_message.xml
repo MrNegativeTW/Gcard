@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/searchScreen_errorIcon_contentDescribe"
         android:src="@drawable/baseline_report_gmailerrorred_24"
         app:layout_constraintBottom_toTopOf="@id/textView_errorMessage"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,9 +26,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_retrySearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView_errorIcon"
         tools:text="403 Rate Limit Exceeded" />
+
+    <Button
+        android:id="@+id/button_retrySearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusedByDefault="true"
+        android:text="@string/searchScreen_retrySearch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_errorMessage" />
 </androidx.constraintlayout.widget.ConstraintLayout>
