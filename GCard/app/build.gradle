@@ -51,6 +51,12 @@ android {
     }
 }
 
+android.testOptions {
+    unitTests.all {
+        it.useJUnitPlatform()
+    }
+}
+
 dependencies {
     def lifecycle_version = "2.5.1"
     def nav_version = "2.5.3"
@@ -87,6 +93,7 @@ dependencies {
 
     // [START] Test Related
     testImplementation "androidx.room:room-testing:$room_version"
+    testImplementation 'io.kotest:kotest-runner-junit5:5.5.5'
     testImplementation 'junit:junit:4.13.2'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
