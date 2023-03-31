@@ -25,8 +25,9 @@ class GitHubRemoteDataSource(private val githubApiService: GithubApiService) {
                 emit(SearchResult.Success(it))
             }
         } else if (response.code() == 403) {
-            // Rate limit exceeded
             emit(SearchResult.Error("[403] Rate limit exceeded"))
+        } else if (response.code() == 503) {
+            emit(SearchResult.Error("[503] Service unavailable"))
         } else {
             logI(TAG, response.errorBody().toString())
             emit(SearchResult.Error("Unknown Error"))
