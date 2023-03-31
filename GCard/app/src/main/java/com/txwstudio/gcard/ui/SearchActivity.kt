@@ -71,11 +71,6 @@ class SearchActivity : AppCompatActivity() {
             binding.searchView.hide()
         }
 
-        // 按下 SearchBar 中 Leading icon 的動作
-        binding.searchBar.setNavigationOnClickListener {
-            if (binding.searchView.text!!.isEmpty()) binding.searchBar.text = ""
-        }
-
         // 發生錯誤的重試按鈕
         binding.layoutErrorMessage.buttonRetrySearch.setOnClickListener {
             viewModel.submitSearchKeyword(binding.searchView.text.toString())
@@ -138,6 +133,7 @@ class SearchActivity : AppCompatActivity() {
                     binding.layoutErrorMessage.root.visibility = View.GONE
                     binding.layoutShowCount.root.visibility = View.GONE
                     binding.nestedScrollViewSearchResultArea.visibility = View.GONE
+                    binding.searchBar.text = ""
                     searchAdapter.apply {
                         submitList(listOf())
                         notifyDataSetChanged()
