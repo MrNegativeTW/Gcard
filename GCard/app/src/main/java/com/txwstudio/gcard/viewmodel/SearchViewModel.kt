@@ -18,7 +18,6 @@ import kotlinx.coroutines.withContext
 
 class SearchViewModel(private val gitHubRepository: GitHubRepository) : ViewModel() {
 
-    // TODO("Placeholder")
     private val _searchState = MutableLiveData<SearchResult<SearchRepoApiModel>>()
     val searchState: LiveData<SearchResult<SearchRepoApiModel>>
         get() = _searchState

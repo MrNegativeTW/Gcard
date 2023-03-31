@@ -54,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
         val editText = binding.searchView.editText
         editText.setOnEditorActionListener { view, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                // TODO("Save keyword to Room t")
+                // TODO("Save keyword to Room")
                 viewModel.saveSearchKeyword(binding.searchView.text.toString())
             }
             binding.searchBar.text = binding.searchView.text
