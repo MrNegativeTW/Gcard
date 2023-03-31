@@ -79,12 +79,14 @@ class SearchActivity : AppCompatActivity() {
 
     private fun subscribeViewModel() {
         viewModel.searchState.observe(this) {
-            // TODO("Set all components to default state")
+            binding.progressCircular.visibility = View.GONE
+            binding.layoutShowCount.root.visibility = View.GONE
+            binding.layoutErrorMessage.root.visibility = View.GONE
+            binding.nestedScrollViewSearchResultArea.visibility = View.GONE
+
             when (it) {
                 is SearchResult.Success -> {
                     logI("回應成功，總數量 ${it.data.totalCount}")
-                    binding.progressCircular.visibility = View.GONE
-                    binding.layoutErrorMessage.root.visibility = View.GONE
                     binding.layoutShowCount.apply {
                         textViewKeyword.text = "顯示 ${it.data.totalCount} 筆結果"
                         root.visibility = View.VISIBLE
@@ -100,13 +102,10 @@ class SearchActivity : AppCompatActivity() {
 
                 is SearchResult.Error -> {
                     logI("發生錯誤 ${it.messages}")
-                    binding.progressCircular.visibility = View.GONE
                     binding.layoutErrorMessage.apply {
                         root.visibility = View.VISIBLE
                         textViewErrorMessage.text = "發生錯誤 ${it.messages}"
                     }
-                    binding.layoutShowCount.root.visibility = View.GONE
-                    binding.nestedScrollViewSearchResultArea.visibility = View.GONE
                     searchAdapter.apply {
                         submitList(listOf())
                         notifyDataSetChanged()
@@ -115,11 +114,7 @@ class SearchActivity : AppCompatActivity() {
 
                 is SearchResult.Loading -> {
                     logI("載入中")
-                    // TODO("SearchView 顯示載入中")
                     binding.progressCircular.visibility = View.VISIBLE
-                    binding.layoutErrorMessage.root.visibility = View.GONE
-                    binding.layoutShowCount.root.visibility = View.GONE
-                    binding.nestedScrollViewSearchResultArea.visibility = View.GONE
                     searchAdapter.apply {
                         submitList(listOf())
                         notifyDataSetChanged()
@@ -128,11 +123,6 @@ class SearchActivity : AppCompatActivity() {
 
                 is SearchResult.Clear -> {
                     logI("清空畫面")
-                    // TODO("重設 SearchBar 的 Leading icon")
-                    binding.progressCircular.visibility = View.GONE
-                    binding.layoutErrorMessage.root.visibility = View.GONE
-                    binding.layoutShowCount.root.visibility = View.GONE
-                    binding.nestedScrollViewSearchResultArea.visibility = View.GONE
                     binding.searchBar.text = ""
                     searchAdapter.apply {
                         submitList(listOf())
